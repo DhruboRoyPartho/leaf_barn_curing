@@ -1,9 +1,9 @@
-// Main code
+// Time define kora ache properly
 
 // Project: Leaf Barn Curing
 // Code Author: Dhrubo Roy Partho
 // Date: 02/05/2024
-// Version: 1.0v
+// Version: 2.0v
 
 
 
@@ -87,8 +87,8 @@ const byte phase[4][14][2] = {{{95, 92}, {96, 93}, {98, 94}, {99, 95}, {100, 96}
                               {{120, 100}, {122, 100}, {124, 101}, {126, 101}, {128, 102}, {130, 102}, {132, 102}, {134, 103}, {136, 103}, {138, 104}, {140, 104}, {142, 104}, {144, 105}, {145, 105}},
                               {{145, 105}, {147, 106}, {151, 107}, {153, 107}, {155, 108}, {157, 108}, {159, 109}, {161, 109}, {163, 110}, {163, 110}, {165, 110}}};
 
-const byte phase_duration_h[4] = {4, 10, 14, 10};
-const byte phase_duration_m[4] = {0, 0, 30, 0};
+// const byte phase_duration_h[4] = {4, 10, 14, 10};
+// const byte phase_duration_m[4] = {0, 0, 30, 0};
 
 byte loader_icon_counter = 0;
 
@@ -211,7 +211,7 @@ void loop(void){
     display();
   }
 
-  if(selected_phase >= 1 && selected_phase <= 4 && (millis() - mem_pre_time) > mem_delay){      // 15 sec delay for memory writing
+  if(selected_phase >= 1 && selected_phase <= 4 && (millis() - mem_pre_time) > mem_delay){      // 10 sec delay for memory writing
     memory_data_write();
     mem_pre_time = millis();
   }
@@ -410,16 +410,16 @@ void wait_for_next_phase(){
 
 void time_definer(){
     if(selected_phase == 1){
-        defined_time = 240000; //1.44e+7;      // milliseconds
+        defined_time = 1.44e+7;      // milliseconds
     }
     else if(selected_phase == 2){
-        defined_time = 240000; //3.6e+7;
+        defined_time = 3.6e+7;
     }
     else if(selected_phase == 3){
-        defined_time = 240000; //4.5e+7;
+        defined_time = 4.5e+7;
     }
     else if(selected_phase == 4){
-        defined_time = 240000;//3.6e+7;
+        defined_time = 3.6e+7;
     }
     else{
         defined_time = 0;

@@ -1,9 +1,9 @@
-// Main code
+// Version 1 er sensor duita ke ultay deya ache
 
 // Project: Leaf Barn Curing
 // Code Author: Dhrubo Roy Partho
 // Date: 02/05/2024
-// Version: 1.0v
+// Version: 2.0v
 
 
 
@@ -87,8 +87,8 @@ const byte phase[4][14][2] = {{{95, 92}, {96, 93}, {98, 94}, {99, 95}, {100, 96}
                               {{120, 100}, {122, 100}, {124, 101}, {126, 101}, {128, 102}, {130, 102}, {132, 102}, {134, 103}, {136, 103}, {138, 104}, {140, 104}, {142, 104}, {144, 105}, {145, 105}},
                               {{145, 105}, {147, 106}, {151, 107}, {153, 107}, {155, 108}, {157, 108}, {159, 109}, {161, 109}, {163, 110}, {163, 110}, {165, 110}}};
 
-const byte phase_duration_h[4] = {4, 10, 14, 10};
-const byte phase_duration_m[4] = {0, 0, 30, 0};
+// const byte phase_duration_h[4] = {4, 10, 14, 10};
+// const byte phase_duration_m[4] = {0, 0, 30, 0};
 
 byte loader_icon_counter = 0;
 
@@ -185,6 +185,7 @@ ISR(PCINT1_vect){
 }
 
 
+// Reset function
 void (*resetFunc)(void) = 0;
 
 
@@ -211,7 +212,7 @@ void loop(void){
     display();
   }
 
-  if(selected_phase >= 1 && selected_phase <= 4 && (millis() - mem_pre_time) > mem_delay){      // 15 sec delay for memory writing
+  if(selected_phase >= 1 && selected_phase <= 4 && (millis() - mem_pre_time) > mem_delay){      // 10 sec delay for memory writing
     memory_data_write();
     mem_pre_time = millis();
   }
@@ -410,16 +411,16 @@ void wait_for_next_phase(){
 
 void time_definer(){
     if(selected_phase == 1){
-        defined_time = 240000; //1.44e+7;      // milliseconds
+        defined_time = 1.44e+7;      // milliseconds
     }
     else if(selected_phase == 2){
-        defined_time = 240000; //3.6e+7;
+        defined_time = 3.6e+7;
     }
     else if(selected_phase == 3){
-        defined_time = 240000; //4.5e+7;
+        defined_time = 4.5e+7;
     }
     else if(selected_phase == 4){
-        defined_time = 240000;//3.6e+7;
+        defined_time = 3.6e+7;
     }
     else{
         defined_time = 0;
@@ -520,14 +521,17 @@ void temp_measure(){
     // Call sensors.requestTemperatures() to issue a global temperature and Requests to all devices on the bus
     sensors.requestTemperatures();
 
+    int idx = 0;
+
     // Loop through each device, print out temperature data
-    for(int i=0;i<numberOfDevices; i++) {
+    for(int i=numberOfDevices-1;i>=0; i--) {
         // Search the wire for address
         if(sensors.getAddress(tempDeviceAddress, i)){
-          tempC[i] = sensors.getTempC(tempDeviceAddress);
-          tempF[i] = DallasTemperature::toFahrenheit(tempC[i]);
+          tempC[idx] = sensors.getTempC(tempDeviceAddress);
+          tempF[idx] = DallasTemperature::toFahrenheit(tempC[i]);
         //   Serial.println(tempF[i]);    //DallasTemperature::toFahrenheit(tempC)   // Converts tempC to Fahrenheit
         } 	
+        idx++;
     }
 
     // display();
